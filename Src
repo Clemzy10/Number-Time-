@@ -1,0 +1,74 @@
+//============================================================================
+// Name        : NumberTimeQuiz.cpp
+// Author      :
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <time.h>
+#include <ctime>
+#include <cstdlib>
+#include <cmath>
+#include <list>
+#include <iterator>
+#include <functional>
+#include <numeric>
+
+using namespace std;
+
+int main() {
+	cout<<"Number Time quiz!\n";
+
+	_sleep(2000);
+
+	cout<< "Answer the multiplication problems before time runs out!\n";
+	_sleep(3000);
+
+	cout<<"\nReady? Go!";
+
+	std::clock_t c_start = std::clock();
+
+	int score = 0;
+
+	//Game Logic
+
+	while (true) {
+		int difficulty_setting = 2;
+		int difficulty_progression = floor(score/10);
+
+	    int overall_difficulty = difficulty_setting + difficulty_progression;
+
+	    list <int> numbers_list;
+		for(int i = 0; i<= overall_difficulty; i++){
+			int value =  rand() % 9 + 1;
+			numbers_list.push_back(value);
+		}
+
+		using std::begin;
+		using std::end;
+		auto answer = std::accumulate(begin(numbers_list), end(numbers_list), 1, std::multiplies<double>());
+
+		for (list<int>::iterator i=numbers_list.begin(); i!=numbers_list.end(); i++)
+    cout << "Multiple these numbers" << *i << " ";
+
+		 int guess;
+		 cin >> guess;
+
+		 if (guess == answer){
+			 score = score + (1 * overall_difficulty);
+			 continue;
+		 }else{
+			 cout<<"Game over! The answer was"<<answer;
+			 std::clock_t c_end = std::clock();
+			 float elapsed_time = c_end - c_start;
+			 cout<<"Your score was" <<score << "In only"<< elapsed_time;
+		 }
+		 break;
+
+	}
+
+	return 0;
+}
+
